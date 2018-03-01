@@ -181,7 +181,7 @@ In NUMA, each address in the global address space is typically assigned a fixed 
 	\item It raises problems of how to find a particular data (there is no longer a home node) and what to do if a local memory fills up.
 \end{itemize}
 
-\section{Analysis of Speedup Metrics for Parallel Computing}
+\section{Speedup Metrics Analysis for Parallel Computing}
 \subsection*{Amdahl's Law}
 Simply speaking, it depicts that \underline{the speed up is limited by the serial part of a program}. For this reason, parallel computing with many processors is useful only for \underline{highly parallelizable} programs.
 \begin{equation}
@@ -235,6 +235,58 @@ where
 \end{itemize}
 \subsubsection*{Sun-Ni's Law Assumption}As computing power increases, the corresponding increase in problem size is \underline{constrained} by the system’s \underline{memory capacity}.
 
+\section{Performance Analysis of SCMT Processors}
+In this section, we'll analyze the possibility of performance decrease, while running a multi-threaded application on a single core processor(\textit{SCMT}). Let's analyze the issue with a simple example. Assume we want to train a multi-layer convolutional neural network on a set of matrices. A single core processor can do this by loading the matrix in its cache and start performing the convolution computation for each pixel(index of matrix). In the time the convolution is being calculated, there might be a need for another matrix to perform another computation, let's say a max pooling. Since we have chosen a \textit{large capacity cache}, the matrix is loaded into the cache(let's say the matrix shape is [800, 600]). The process of copying the data to the cache and more formally, \textit{context switching} between threads(We have assumed that thread 1 uses matrix A and thread 2 needs matrix B) can be a huge bottleneck. When the number of threads increase, the context switching happens more frequently and the cost of that is exhaustively expensive.
+\newpage
+
+\section{Computing Analysis of Asus N56JK}
+We'll provide the following information below. These information was extracted using \textit{lscpu} command on an \textit{Ubuntu 16.04}.\\
+\\
+\textsc{Overall cpu architecture | Frequencies | Cache Layers \& Line Size}
+\begin{quote}
+	\begin{verbatim}
+	Architecture:          x86_64
+	CPU op-mode(s):        32-bit, 64-bit
+	Byte Order:            Little Endian
+	CPU(s):                8
+	On-line CPU(s) list:   0-7
+	Thread(s) per core:    2
+	Core(s) per socket:    4
+	Socket(s):             1
+	NUMA node(s):          1
+	Vendor ID:             GenuineIntel
+	CPU family:            6
+	Model:                 60
+	Model name:            Intel(R) Core(TM) i7-4710HQ CPU @ 2.50GHz
+	Stepping:              3
+	CPU MHz:               2494.217
+	CPU max MHz:           3500.0000
+	CPU min MHz:           800.0000
+	BogoMIPS:              4988.43
+	Virtualization:        VT-x
+	L1d cache:             32K
+	L1i cache:             32K
+	L2 cache:              256K
+	L3 cache:              6144K
+	NUMA node0 CPU(s):     0-7
+	\end{verbatim}
+\end{quote}
+Now let's see the memory details. Using the command \textit{sudo lshw -short -C memory} we can extract memory details on Linux terminal.\\
+\\
+\textsc{Overall memory status}
+\begin{quote}
+	\begin{verbatim}
+		H/W path          Class          Description
+		======================================================
+		/0/0              memory         64KiB BIOS
+		/0/8/9            memory         1MiB L2 cache
+		/0/8/a            memory         256KiB L1 cache
+		/0/8/b            memory         6MiB L3 cache
+		/0/c/2            memory         4GiB SODIMM DDR3 Synchronous 1600 MHz
+	\end{verbatim}
+\end{quote}
+\newpage
+Finally, we'll show the \textit{Intel(R) Core(TM) i7-4710HQ} architecture and core connection topology.
 \begin{thebibliography}{9}
 	\bibitem{NUMA} 
 	Christoph Lameter. 
