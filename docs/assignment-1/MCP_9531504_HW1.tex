@@ -180,6 +180,61 @@ In NUMA, each address in the global address space is typically assigned a fixed 
 	
 	\item It raises problems of how to find a particular data (there is no longer a home node) and what to do if a local memory fills up.
 \end{itemize}
+
+\section{Analysis of Speedup Metrics for Parallel Computing}
+\subsection*{Amdahl's Law}
+Simply speaking, it depicts that \underline{the speed up is limited by the serial part of a program}. For this reason, parallel computing with many processors is useful only for \underline{highly parallelizable} programs.
+\begin{equation}
+	S = \frac{1}{(1-\alpha) + \frac{\alpha}{p}}
+\end{equation}
+where
+
+\begin{itemize}
+	\item $\alpha$ is the proportion of the program that can be implemented in parallel;
+	
+	\item p is the number of cores, thread, parallel units;
+	
+	\item resulting speed-up.
+\end{itemize}
+
+\subsubsection*{Amdahl's Law Assumption}Theoretical speedup in latency of the execution of a task at \underline{fixed problem size}.\cite{AMDAHL}
+
+\subsection*{Gustafson's law}
+Gustafson's law proposes that programmers tend to set the size of problems to fully exploit the computing power that becomes available as the resources improve. Therefore, if faster equipment is available, larger problems can be solved within the same time.
+
+\begin{equation}
+	S = p + (1-p)(1-\alpha)
+\end{equation}
+where
+
+\begin{itemize}
+	\item $\alpha$ is the proportion of the program that can be implemented in parallel;
+	
+	\item p is the number of cores, thread, parallel units;
+	
+	\item resulting speed-up.
+\end{itemize}
+
+\subsubsection*{Gustafson's Law Assumption}Theoretical speedup in latency of the execution of a task at \underline{fixed execution time}.\cite{GUSTAFSON}
+
+\subsection*{Sun-Ni's Law}
+Analogous to Amdahl's law, which says that the problem size remains constant as system sizes grow, and Gustafson's law, which proposes that the problem size should scale but be bound by a fixed amount of time, Sun-Ni's Law states the problem size should scale but be bound by the memory capacity of the system.\cite{NIL1}\cite{NIL2}
+
+\begin{equation}
+S = \frac{(1-\alpha) + \alpha*P(m)}{(1-\alpha) + \frac{\alpha*P(m)}{m}}
+\end{equation}
+
+where
+
+\begin{itemize}
+	\item $\alpha$ is the proportion of the program that can be implemented in parallel;
+	
+	\item m is the fraction that memory capacity has increased;
+	
+	\item P(m) parallel workload increase as memory increases in m.
+\end{itemize}
+\subsubsection*{Sun-Ni's Law Assumption}As computing power increases, the corresponding increase in problem size is \underline{constrained} by the system’s \underline{memory capacity}.
+
 \begin{thebibliography}{9}
 	\bibitem{NUMA} 
 	Christoph Lameter. 
@@ -192,6 +247,23 @@ In NUMA, each address in the global address space is typically assigned a fixed 
 	\bibitem{COMA} 
 	F. Dahlgren and J. Torrellas. 
 	\textit{Cache-only memory architectures}. IEEE Computer, June 1999.
+	
+	\bibitem{AMDAHL} 
+	Rodgers, David P. 
+	\textit{Improvements in multiprocessor system design}. ACM SIGARCH Computer Architecture News. New York, NY, USA: ACM, June 1985.
+	
+	\bibitem{GUSTAFSON} 
+	Gustafson, John L.  
+	\textit{Reevaluating Amdahl's Law}. Communications of the ACM, May 1988.
+	
+	\bibitem{NIL1} 
+	X.H. Sun, and L. Ni.	  
+	\textit{Scalable Problems and Memory-Bounded Speedup}. Journal of Parallel and Distributed Computing, September 1993.
+	
+	\bibitem{NIL2} 
+	Xian-He Sun and Lionel Ni.	  
+	\textit{Another View on Parallel Speedup}. IEEE Supercomputing Conference, 1990.
+	
 \end{thebibliography}
 
 \end{document}
