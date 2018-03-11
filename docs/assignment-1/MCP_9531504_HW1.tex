@@ -236,7 +236,7 @@ where
 \subsubsection*{Sun-Ni's Law Assumption}As computing power increases, the corresponding increase in problem size is \underline{constrained} by the system’s \underline{memory capacity}.
 
 \section{Performance Analysis of SCMT Processors}
-In this section, we'll analyze the possibility of performance decrease, while running a multi-threaded application on a single core processor(\textit{SCMT}). Let's analyze the issue with a simple example. Assume we want to train a multi-layer convolutional neural network on a set of matrices. A single core processor can do this by loading the matrix in its cache and start performing the convolution computation for each pixel(index of matrix). In the time the convolution is being calculated, there might be a need for another matrix to perform another computation, let's say a max pooling. Since we have chosen a \textit{large capacity cache}, the matrix is loaded into the cache(let's say the matrix shape is [800, 600]). The process of copying the data to the cache and more formally, \textit{context switching} between threads(We have assumed that thread 1 uses matrix A and thread 2 needs matrix B) can be a huge bottleneck. When the number of threads increase, the context switching happens more frequently and the cost of that is exhaustively expensive.
+In this section, we'll analyze the possibility of performance decrease, while running a multi-threaded application on a single core processor(\textit{SCMT}). Let's analyze the issue with a simple example. Assume we want to train a multi-layer convolutional neural network on a set of matrices. A single core processor can do this by loading the matrix in its cache and start performing the convolution computation for each pixel(index of matrix). In the time the convolution is being calculated, there might be a need for another matrix to perform another computation, let's say a max pooling. Since we have chosen a \textit{large capacity cache}, the matrix is loaded into the cache(let's say the matrix shape is [800, 600]). The process of copying the data to the cache and more formally, \textit{context switching} between threads(We have assumed that thread 1 uses matrix A and thread 2 needs matrix B) can be a huge bottleneck. When the number of threads increase, the context switching happens more frequently and the cost of that is exhaustively expensive. Another phenomenon can be possibly the \textit{False Sharing} which is happened while a particular section of an array is updated in the cache of one core. The other core therefore invalidates the same contents in its cache although there wasn't the need for that.
 \newpage
 
 \section{Computing Analysis of Asus N56JK}
@@ -289,9 +289,10 @@ Now let's see the memory details. Using the command \textit{sudo lshw -short -C 
 Finally, we'll show the \textit{Intel(R) Core(TM) i7-4710HQ} architecture and core connection topology.
 \begin{figure}[!h]\centering
 	\includegraphics[width=0.8\textwidth]{haswell.png}
-	\caption{Intel(R) Haswell Quad-core Architecture.}
+	\caption{Intel(R) Haswell Quad-core Floorplan.}
 	\label{figsolplot}
 \end{figure}	
+According to page 6 of the 2012 IDF presentation "Technology Insight: Intel Next Generation Microarchitecture Code Name Haswell", Haswell retains the \textit{ring} interconnect of Sandy Bridge and Ivy Bridge.
 \begin{thebibliography}{9}
 	\bibitem{NUMA} 
 	Christoph Lameter. 
@@ -320,7 +321,7 @@ Finally, we'll show the \textit{Intel(R) Core(TM) i7-4710HQ} architecture and co
 	\bibitem{NIL2} 
 	Xian-He Sun and Lionel Ni.	  
 	\textit{Another View on Parallel Speedup}. IEEE Supercomputing Conference, 1990.
-	
+
 \end{thebibliography}
 
 \end{document}
