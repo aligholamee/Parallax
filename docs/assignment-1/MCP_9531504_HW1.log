@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2018.3.24)  11 APR 2018 14:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2018.3.24)  12 APR 2018 00:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -680,20 +680,20 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 [1
 
 {c:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Shared_memory
-_1.png>] <Shared_memory_2.png, id=42, 660.96938pt x 271.0125pt>
+_1.png>] <Shared_memory_2.png, id=41, 660.96938pt x 271.0125pt>
 File: Shared_memory_2.png Graphic file (type png)
 
 <use Shared_memory_2.png>
 Package pdftex.def Info: Shared_memory_2.png used on input line 128.
 (pdftex.def)             Requested size: 281.85585pt x 115.56956pt.
- <UMA_1.png, id=43, 565.36218pt x 319.94531pt>
+ <UMA_1.png, id=42, 565.36218pt x 319.94531pt>
 File: UMA_1.png Graphic file (type png)
 
 <use UMA_1.png>
 Package pdftex.def Info: UMA_1.png used on input line 135.
 (pdftex.def)             Requested size: 281.85585pt x 159.50847pt.
  [2 <./Shared_memory_2.png> <./UMA_1.png>]
-<NUMA_1.png, id=52, 587.94656pt x 325.215pt>
+<NUMA_1.png, id=51, 587.94656pt x 325.215pt>
 File: NUMA_1.png Graphic file (type png)
  <use NUMA_1.png>
 Package pdftex.def Info: NUMA_1.png used on input line 146.
@@ -751,7 +751,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 327.
 Here is how much of TeX's memory you used:
  17211 strings out of 492995
  322755 string characters out of 6136402
- 385009 words of memory out of 5000000
+ 385007 words of memory out of 5000000
  20406 multiletter control sequences out of 15000+600000
  12494 words of font info for 48 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -768,7 +768,7 @@ texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/20
 17/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2017/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><c:/texlive/2017/texmf-dist/font
 s/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on MCP_9531504_HW1.pdf (8 pages, 1346418 bytes).
+Output written on MCP_9531504_HW1.pdf (8 pages, 1346224 bytes).
 PDF statistics:
  177 PDF objects out of 1000 (max. 8388607)
  146 compressed objects within 2 object streams
