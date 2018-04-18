@@ -5,12 +5,18 @@
 *	Date:	15/11/2015
 */
 
+/*
+*				Parallelization: Ali Gholami
+*/
+
 // Let it be.
 #define _CRT_SECURE_NO_WARNINGS
+#define NUM_THREADS 1
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <omp.h>
 
 typedef struct {
 	int *A, *B, *C;
@@ -34,10 +40,30 @@ int main(int argc, char *argv[]){
 		dataSet.m = atoi(argv[2]);
 		dataSet.p = atoi(argv[3]);
 	}
-	fillDataSet(&dataSet);
-	multiply(dataSet);
-	printDataSet(dataSet);
-	closeDataSet(dataSet);
+
+
+	// Get the current time 
+	float start_time, elapsed_time;
+
+	// Repeat the process 6 times
+	int i = 0;
+	for(i = 0; i < 6; i++) {
+		
+		start_time = omp_get_wtime();
+		omp_set_num_threads(NUM_THREADS);
+
+		fillDataSet(&dataSet);
+		multiply(dataSet);
+		printDataSet(dataSet);
+		closeDataSet(dataSet);
+
+		elapsed_time += omp_get_wtime() - start_time;
+	}
+
+	// report elapsed time
+	printf("Average Time Elapsed %lf Secs\n",
+	elapsed_time/6 * 10);
+
 	system("PAUSE");
 	return EXIT_SUCCESS;
 }
@@ -100,7 +126,11 @@ void closeDataSet(DataSet dataSet){
 
 void multiply(DataSet dataSet){
 	int i, j, k, sum;
+
+	#pragma omp parallel for private(i)
 	for(i = 0; i < dataSet.n; i++){
+
+		#pragma omp parallel for private(j)
 		for(j = 0; j < dataSet.p; j++){
 			sum = 0;
 			for(k = 0; k < dataSet.m; k++){
