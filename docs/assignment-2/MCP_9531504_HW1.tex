@@ -219,7 +219,27 @@ The following figures are provided from the problem description by \textit{Dr. A
 	\caption{Matrix Multiplication Parallelization on Horizontal Axis.}
 	\label{figsolplot}
 \end{figure}\\
-Assuming each \textit{integer} as 4 bytes, we'll be filling the table 1.1 using the average time computed after 6 times of running the program.
+Assuming each \textit{integer} as 4 bytes, we'll be filling the table 1.1 using the average time computed after 6 times of running the program.\\
+\def\arraystretch{1.3}
+\begin{table}
+		\centering
+\begin{tabular}{ |p{3cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{1.5cm}|  }
+	
+	\hline
+	\multicolumn{6}{|c|}{Total Size of Each Matrix} \\
+	\hline
+	 Num of Threads & 1 MB & 10 MB & 100 MB & 1 GB & Speedup\\
+	\hline
+		1   & AF    &AFG&   004 &   004&   004\\
+		2   & AF    &AFG&   004 &   004&   004\\
+		4   & AF    &AFG&   004 &   004&   004\\
+		8   & AF    &AFG&   004 &   004&   004\\
+	\hline
+\end{tabular}
+	\caption{Results of 1-Dimensional Parallelization.}
+\label{figsolplot}
+\end{table}
+
 \begin{thebibliography}{999}
 	
 	\bibitem{cross_validation}
