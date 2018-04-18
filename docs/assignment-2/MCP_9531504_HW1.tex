@@ -57,36 +57,35 @@
 
 \usepackage{listings}
 
-% Python style for highlighting
-\newcommand\pythonstyle{\lstset{
-		language=Python,
-		basicstyle=\ttm,
-		otherkeywords={self},             % Add keywords here
-		keywordstyle=\ttb\color{deepblue},
-		emph={MyClass,__init__},          % Custom highlighting
-		emphstyle=\ttb\color{deepred},    % Custom highlighting style
-		stringstyle=\color{deepgreen},
+% cpp style for highlighting
+\newcommand\cppstyle{\lstset{
+		language=C++,
+        basicstyle=\tiny\ttfamily,
+		keywordstyle=\color{blue}\ttfamily,
+		stringstyle=\color{red}\ttfamily,
+		commentstyle=\color{green}\ttfamily,
+		morecomment=[l][\color{magenta}]{\#},
 		frame=tb,                         % Any extra options here
-		showstringspaces=false,            % 
-		backgroundcolor=\color{backcolour}
+showstringspaces=false,            % 
+backgroundcolor=\color{backcolour}
 }}
 
 
-% Python environment
-\lstnewenvironment{python}[1][]
+% cpp environment
+\lstnewenvironment{cpp}[1][]
 {
-	\pythonstyle
+	\cppstyle
 	\lstset{#1}
 }
 {}
 
-% Python for external files
-\newcommand\pythonexternal[2][]{{
-		\pythonstyle
+% cpp for external files
+\newcommand\cppexternal[2][]{{
+		\cppstyle
 		\lstinputlisting[#1]{#2}}}
 
-% Python for inline
-\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+% cpp for inline
+\newcommand\cppinline[1]{{\cppstyle\lstinline!#1!}}
 
 \newcommand{\IN}{\mathbb{N}}
 \newcommand{\IZ}{\mathbb{Z}}
@@ -194,8 +193,23 @@ A tree has many analogies in real life, and turns out that it has influenced a w
 
 \subparagraph{Keywords.} \textit{Heterogeneous Programming, OpenMP, C Programming, C++ Programming, Parallelization, Multi-thread Programming.}
 
-\section{Data Preprocessing}
+\section{Matrix Multiplication}
+This is the a new cpp code.
 
+\begin{cpp}
+		void multiply(DataSet dataSet){
+			int i, j, k, sum;
+			for(i = 0; i < dataSet.n; i++){
+				for(j = 0; j < dataSet.p; j++){
+					sum = 0;
+					for(k = 0; k < dataSet.m; k++){
+						sum += dataSet.A[i * dataSet.m + k] * dataSet.B[k * dataSet.p + j];
+					}
+					dataSet.C[i * dataSet.p + j] = sum;
+				}
+			}
+		}
+\end{cpp}
 \begin{thebibliography}{999}
 	
 	\bibitem{cross_validation}
