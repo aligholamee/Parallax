@@ -188,7 +188,7 @@ anchorcolor = darkblue]{hyperref}
 \end{center}
 
 \begin{abstract}
-A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data mining for deriving a strategy to reach a particular goal, its also widely used in machine learning, which will be the main focus of this article.
+OpenMP is an implementation of multithreading, a method of parallelizing whereby a master thread (a series of instructions executed consecutively) forks a specified number of slave threads and the system divides a task among them. The threads then run concurrently, with the runtime environment allocating threads to different processors. In this assignment, we are going to implement the parallelization of the matrix multiplication.
 \end{abstract} 
 
 \subparagraph{Keywords.} \textit{Heterogeneous Programming, OpenMP, C Programming, C++ Programming, Parallelization, Multi-thread Programming.}
@@ -215,13 +215,40 @@ In this assignment, we'll be parallelizing the matrix multiplication using \text
 \subsection{1D Parallelization}
 The following figures are provided from the problem description by \textit{Dr. Ahmad Siavashi}. Each of the highlighted areas show a job for a thread. Figure 1.1 shows how the multiplication is done by each thread.
 \begin{figure}[!h]\centering
-	\includegraphics[width=0.8\textwidth]{one_dimensional.png}
+	\includegraphics[width=0.9\textwidth]{one_dimensional.png}
 	\caption{Matrix Multiplication Parallelization on Horizontal Axis.}
 	\label{figsolplot}
 \end{figure}\\
-Assuming each \textit{integer} as 4 bytes, we'll be filling the table 1.1 using the average time computed after 6 times of running the program.\\
+Assuming each \textit{integer} as 4 bytes, we'll be filling the table 1.1 using the average time computed after 6 times of running the program. Note that in the dimensions of these matrices is assumed to be same in different axises and we are dealing with squared matrices. According to this assumption, each dimension can be computed as below:
+\begin{itemize}
+	\item \textbf{1 MB}: $d = \sqrt{\frac{10^6}{4}} = 16$
+	\item \textbf{10 MB}: $d = \sqrt{\frac{10^7}{4}} = 50$
+	\item \textbf{100 MB}:  $d = \sqrt{\frac{10^8}{4}} = 160$
+	\item \textbf{1 GB}:  $d = \sqrt{\frac{10^9}{4}} = 505$
+\end{itemize}
+\subsubsection{Serial Time}
+The average serial time for this multiplication is $0.239668$ seconds.
+\subsubsection{Parallelized For Loop}
+In order to make things a bit faster, we'll use \textit{pragma} like so:
+\begin{cpp}
+		void multiply(DataSet dataSet){
+			int i, j, k, sum;
+			
+			#pragma omp parallel for private(i)
+			for(i = 0; i < dataSet.n; i++){
+				for(j = 0; j < dataSet.p; j++){
+					sum = 0;
+					for(k = 0; k < dataSet.m; k++){
+						sum += dataSet.A[i * dataSet.m + k] * dataSet.B[k * dataSet.p + j];
+					}
+					dataSet.C[i * dataSet.p + j] = sum;
+				}
+			}
+		}
+\end{cpp}
+
 \def\arraystretch{1.3}
-\begin{table}
+\begin{table}[!h]
 		\centering
 \begin{tabular}{ |p{3cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{1.5cm}|  }
 	
@@ -230,24 +257,63 @@ Assuming each \textit{integer} as 4 bytes, we'll be filling the table 1.1 using 
 	\hline
 	 Num of Threads & 1 MB & 10 MB & 100 MB & 1 GB & Speedup\\
 	\hline
-		1   & AF    &AFG&   004 &   004&   004\\
-		2   & AF    &AFG&   004 &   004&   004\\
-		4   & AF    &AFG&   004 &   004&   004\\
-		8   & AF    &AFG&   004 &   004&   004\\
+		1   & 2.39668    &3.098899 &   56.76889 &   309.10345&   -\\
+		2   & 0.32538    &3.138752  &  31.108587 &   310.84936 &   2.3\\
+		4   & 0.35203    &3.188132 &   32.936455 &   310.43297&   1\\
+		8   & 0.339939    &3.162757&   31.435501 &   308.047638&   1.1\\
 	\hline
 \end{tabular}
 	\caption{Results of 1-Dimensional Parallelization.}
 \label{figsolplot}
 \end{table}
+\newpage
+\subsection{2D Parallelization}
+The results for the \textit{2D} parallelization is given in the table 1.2.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.9\textwidth]{two_dimensional.png}
+	\caption{Matrix Multiplication Parallelization on Horizontal and Vertical Axis.}
+	\label{figsolplot}
+\end{figure}\\
+\subsection{2D Parallelized For Loop}
+Each of the threads does the job in the highlighted area.
+In order to make things a bit faster, we'll use \textit{pragma} like so:
+\begin{cpp}
+		void multiply(DataSet dataSet){
+			int i, j, k, sum;
+			
+			#pragma omp parallel for private(i)
+			for(i = 0; i < dataSet.n; i++){
+				
+				#pragma omp parallel for private(j)
+				for(j = 0; j < dataSet.p; j++){
+					sum = 0;
+					for(k = 0; k < dataSet.m; k++){
+						sum += dataSet.A[i * dataSet.m + k] * dataSet.B[k * dataSet.p + j];
+					}
+					dataSet.C[i * dataSet.p + j] = sum;
+				}
+			}
+		}
+\end{cpp}
 
-\begin{thebibliography}{999}
-	
-	\bibitem{cross_validation}
-	Prashant Gupta,
-	\emph{Cross-Validation in Machine Learning}.
-	Towards Data Science,
-	Jun 5, 2017.
+\def\arraystretch{1.3}
+\begin{table}
+	\centering
+	\begin{tabular}{ |p{3cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{1.5cm}|  }
+		
+		\hline
+		\multicolumn{6}{|c|}{Total Size of Each Matrix} \\
+		\hline
+		Num of Threads & 1 MB & 10 MB & 100 MB & 1 GB & Speedup\\
+		\hline
+		1   & 0.335665    &3.202322 &   30.957708 &   295.218567&   -\\
+		2   & 0.279533    &2.812544  &  30.707558 &   300.334747  &   1.2\\
+		4   & 0.268334     &2.400637 &   30.366821 &   302.839111&   1.04\\
+		8   & 0.294931    &2.543862&   30.529339  &   304.471771&   0.95\\
+		\hline
+	\end{tabular}
+	\caption{Results of 2-Dimensional Parallelization.}
+	\label{figsolplot}
+\end{table}
 
-	
-\end{thebibliography}
 \end{document}
