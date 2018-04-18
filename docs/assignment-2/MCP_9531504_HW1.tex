@@ -194,7 +194,8 @@ A tree has many analogies in real life, and turns out that it has influenced a w
 \subparagraph{Keywords.} \textit{Heterogeneous Programming, OpenMP, C Programming, C++ Programming, Parallelization, Multi-thread Programming.}
 
 \section{Matrix Multiplication}
-This is the a new cpp code.
+\subsection{What's the goal?}
+In this assignment, we'll be parallelizing the matrix multiplication using \textit{OpenMP}. The goal is to speed up the matrix multiplication by implementing the parallelization in two axis (\textit{1D} \& \textit{2D}). Below the serial code for the matrix multiplication. Sources for this assignment is available in the repository merged with this report.
 
 \begin{cpp}
 		void multiply(DataSet dataSet){
@@ -210,6 +211,15 @@ This is the a new cpp code.
 			}
 		}
 \end{cpp}
+
+\subsection{1D Parallelization}
+The following figures are provided from the problem description by \textit{Dr. Ahmad Siavashi}. Each of the highlighted areas show a job for a thread. Figure 1.1 shows how the multiplication is done by each thread.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.8\textwidth]{one_dimensional.png}
+	\caption{Matrix Multiplication Parallelization on Horizontal Axis.}
+	\label{figsolplot}
+\end{figure}\\
+Assuming each \textit{integer} as 4 bytes, we'll be filling the table 1.1 using the average time computed after 6 times of running the program.
 \begin{thebibliography}{999}
 	
 	\bibitem{cross_validation}
