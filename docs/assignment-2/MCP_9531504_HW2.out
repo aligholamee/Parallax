@@ -1,0 +1,7 @@
+\BOOKMARK [1][-]{section.1}{Matrix\040Multiplication}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{What's\040the\040goal?}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{1D\040Parallelization}{section.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Serial\040Time}{subsection.1.2}% 4
+\BOOKMARK [3][-]{subsubsection.1.2.2}{Parallelized\040For\040Loop}{subsection.1.2}% 5
+\BOOKMARK [2][-]{subsection.1.3}{2D\040Parallelization}{section.1}% 6
+\BOOKMARK [2][-]{subsection.1.4}{2D\040Parallelized\040For\040Loop}{section.1}% 7

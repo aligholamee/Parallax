@@ -221,10 +221,10 @@ The following figures are provided from the problem description by \textit{Dr. A
 \end{figure}\\
 Assuming each \textit{integer} as 4 bytes, we'll be filling the table 1.1 using the average time computed after 6 times of running the program. Note that in the dimensions of these matrices is assumed to be same in different axises and we are dealing with squared matrices. According to this assumption, each dimension can be computed as below:
 \begin{itemize}
-	\item \textbf{1 MB}: $d = \sqrt{\frac{10^6}{4}} = 16$
-	\item \textbf{10 MB}: $d = \sqrt{\frac{10^7}{4}} = 50$
-	\item \textbf{100 MB}:  $d = \sqrt{\frac{10^8}{4}} = 160$
-	\item \textbf{1 GB}:  $d = \sqrt{\frac{10^9}{4}} = 505$
+	\item \textbf{1 KB}: $d = \sqrt{\frac{10^3}{4}} = 16$
+	\item \textbf{10 KB}: $d = \sqrt{\frac{10^4}{4}} = 50$
+	\item \textbf{100 KB}:  $d = \sqrt{\frac{10^8}{4}} = 160$
+	\item \textbf{1000 KB}:  $d = \sqrt{\frac{10^9}{4}} = 505$
 \end{itemize}
 \subsubsection{Serial Time}
 The average serial time for this multiplication is $0.239668$ seconds.
@@ -255,7 +255,7 @@ In order to make things a bit faster, we'll use \textit{pragma} like so:
 	\hline
 	\multicolumn{6}{|c|}{Total Size of Each Matrix} \\
 	\hline
-	 Num of Threads & 1 MB & 10 MB & 100 MB & 1 GB & Speedup\\
+	 Num of Threads & 1 KB & 10 KB & 100 KB & 1000 KB & Speedup\\
 	\hline
 		1   & 2.39668    &3.098899 &   56.76889 &   309.10345&   -\\
 		2   & 0.32538    &3.138752  &  31.108587 &   310.84936 &   2.3\\
@@ -304,7 +304,7 @@ In order to make things a bit faster, we'll use \textit{pragma} like so:
 		\hline
 		\multicolumn{6}{|c|}{Total Size of Each Matrix} \\
 		\hline
-		Num of Threads & 1 MB & 10 MB & 100 MB & 1 GB & Speedup\\
+		Num of Threads & 1 KB & 10 KB & 100 KB & 1000 KB & Speedup\\
 		\hline
 		1   & 0.335665    &3.202322 &   30.957708 &   295.218567&   -\\
 		2   & 0.279533    &2.812544  &  30.707558 &   300.334747  &   1.2\\
