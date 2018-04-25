@@ -30,7 +30,7 @@ void fillDataSet(DataSet *dataSet);
 void printDataSet(DataSet dataSet);
 void closeDataSet(DataSet dataSet);
 void multiply(DataSet dataSet);
-void multiply_parallel(Dataset dataset);
+void multiply_parallel(DataSet dataset);
 
 int main(int argc, char *argv[]){
 	DataSet dataSet;
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]){
 		elapsed_time += omp_get_wtime() - start_time;
 		// printDataSet(dataSet);
 
-		# Calculate the check sum
+		// Calculate the check sum
 		int cmp = memcmp(dataSet.C, dataSet.C_PRIME, dataSet.m * dataSet.p);
 
 		// if cmp == 0 we are good to go :-)
@@ -153,7 +153,7 @@ void multiply(DataSet dataSet) {
       for (k = 0; k < dataSet.m; k++) {
         sum += dataSet.A[i * dataSet.m + k] * dataSet.B[k * dataSet.p + j];
       }
-      dataSet.C_prime[i * dataSet.p + j] = sum;
+      dataSet.C_PRIME[i * dataSet.p + j] = sum;
     }
   }
 }
