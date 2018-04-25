@@ -68,7 +68,7 @@ int main(int argc, char *argv[]){
 		// printDataSet(dataSet);
 
 		// Calculate the check sum
-		int cmp = memcmp(dataSet.C, dataSet.C_PRIME, dataSet.m * dataSet.p);
+		int cmp = memcmp(dataSet.C, dataSet.C_PRIME, dataSet.n * dataSet.p);
 
 		// if cmp == 0 we are good to go :-)
 		printf("[-] Comparing results... %d\n", cmp);
@@ -94,6 +94,7 @@ void fillDataSet(DataSet *dataSet){
 	dataSet->A = (int *) malloc(sizeof(int) * dataSet->n * dataSet->m);
 	dataSet->B = (int *) malloc(sizeof(int) * dataSet->m * dataSet->p);
 	dataSet->C = (int *) malloc(sizeof(int) * dataSet->n * dataSet->p);
+	dataSet->C_PRIME = (int *) malloc(sizeof(int) * dataSet->n * dataSet->p);
 	
 	srand(1);
 
@@ -142,6 +143,7 @@ void closeDataSet(DataSet dataSet){
 	free(dataSet.A);
 	free(dataSet.B);
 	free(dataSet.C);
+	free(dataSet.C_PRIME);
 }
 
 // Serial
