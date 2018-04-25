@@ -52,6 +52,8 @@ int main(int argc, char *argv[]){
 	// Repeat the process 6 times
 	int i = 0;
 	for(i = 0; i < 6; i++) {
+		
+		fillDataSet(&dataSet);
 
 		// Do the parallel first without considering the time
 		multiply(dataSet);
@@ -60,7 +62,7 @@ int main(int argc, char *argv[]){
 
 		omp_set_num_threads(NUM_THREADS);
 
-		fillDataSet(&dataSet);
+
 		
 		start_time = omp_get_wtime();
 		multiply_parallel(dataSet);
@@ -71,10 +73,7 @@ int main(int argc, char *argv[]){
 		int cmp = memcmp(dataSet.C, dataSet.C_PRIME, dataSet.n * dataSet.p);
 
 		// if cmp == 0 we are good to go :-)
-		printf("[-] Comparing results... %d\n", cmp);
-
-		// Print the checksum
-		printf("\nIteration [%d] Compare Results: %d", i, CHECK_SUM);
+		printf("\nIteration [%d] Compare Results: %d\n", i, cmp);
 
 		closeDataSet(dataSet);
 
