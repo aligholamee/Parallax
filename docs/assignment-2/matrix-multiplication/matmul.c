@@ -11,10 +11,10 @@
 
 // Let it be.
 #define _CRT_SECURE_NO_WARNINGS
-#define NUM_THREADS 1
+#define NUM_THREADS 4
 
 // Global variable to check the summation of the elements of the result
-long int CHECK_SUM = 0;
+long long int CHECK_SUM = 0;
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -52,6 +52,7 @@ int main(int argc, char *argv[]){
 	int i = 0;
 	for(i = 0; i < 6; i++) {
 		
+		CHECK_SUM = 0;
 		start_time = omp_get_wtime();
 		omp_set_num_threads(NUM_THREADS);
 
@@ -60,15 +61,15 @@ int main(int argc, char *argv[]){
 		// printDataSet(dataSet);
 		
 		// Print the checksum
-		printf("Iteration [%d] Checksum: %d", &i, &CHECK_SUM);
-		
+		printf("\nIteration [%d] Checksum: %d", i, CHECK_SUM);
+
 		closeDataSet(dataSet);
 
 		elapsed_time += omp_get_wtime() - start_time;
 	}
 
 	// report elapsed time
-	printf("Average Time Elapsed %lf Secs\n",
+	printf("\nAverage Time Elapsed %lf Secs\n",
 	elapsed_time/6 * 10);
 
 	system("PAUSE");
@@ -82,7 +83,7 @@ void fillDataSet(DataSet *dataSet){
 	dataSet->B = (int *) malloc(sizeof(int) * dataSet->m * dataSet->p);
 	dataSet->C = (int *) malloc(sizeof(int) * dataSet->n * dataSet->p);
 	
-	srand(time(NULL));
+	srand(1);
 
 	for(i = 0; i < dataSet->n; i++){
 		for(j = 0; j < dataSet->m; j++){
@@ -134,19 +135,20 @@ void closeDataSet(DataSet dataSet){
 void multiply(DataSet dataSet){
 	int i, j, k, sum;
 
-	#pragma omp parallel for private(i)
+	#pragma omp parallel for
 	for(i = 0; i < dataSet.n; i++){
 
-		#pragma omp parallel for private(j)
+		#pragma omp parallel for
 		for(j = 0; j < dataSet.p; j++){
 			sum = 0;
+
 			for(k = 0; k < dataSet.m; k++){
 				sum += dataSet.A[i * dataSet.m + k] * dataSet.B[k * dataSet.p + j];
 			}
 			dataSet.C[i * dataSet.p + j] = sum;
-			CHECK_SUM += sum;
 		}
 	}
+	CHECK_SUM = sum;
 }
 
 
