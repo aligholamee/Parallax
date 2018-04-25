@@ -6,12 +6,15 @@
 */
 
 /*
-*				Parallelization: Ali Gholami
+*			Parallelization: Ali Gholami
 */
 
 // Let it be.
 #define _CRT_SECURE_NO_WARNINGS
 #define NUM_THREADS 1
+
+// Global variable to check the summation of the elements of the result
+long int CHECK_SUM = 0;
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -54,7 +57,11 @@ int main(int argc, char *argv[]){
 
 		fillDataSet(&dataSet);
 		multiply(dataSet);
-		printDataSet(dataSet);
+		// printDataSet(dataSet);
+		
+		// Print the checksum
+		printf("Iteration [%d] Checksum: %d", &i, &CHECK_SUM);
+		
 		closeDataSet(dataSet);
 
 		elapsed_time += omp_get_wtime() - start_time;
@@ -137,6 +144,9 @@ void multiply(DataSet dataSet){
 				sum += dataSet.A[i * dataSet.m + k] * dataSet.B[k * dataSet.p + j];
 			}
 			dataSet.C[i * dataSet.p + j] = sum;
+			CHECK_SUM += sum;
 		}
 	}
 }
+
+
