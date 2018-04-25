@@ -52,21 +52,32 @@ int main(int argc, char *argv[]){
 	// Repeat the process 6 times
 	int i = 0;
 	for(i = 0; i < 6; i++) {
-		
+
+		// Do the parallel first without considering the time
+		multiply(dataSet);
+
 		CHECK_SUM = 0;
-		start_time = omp_get_wtime();
+
 		omp_set_num_threads(NUM_THREADS);
 
 		fillDataSet(&dataSet);
-		multiply(dataSet);
-		// printDataSet(dataSet);
 		
+		start_time = omp_get_wtime();
+		multiply_parallel(dataSet);
+		elapsed_time += omp_get_wtime() - start_time;
+		// printDataSet(dataSet);
+
+		# Calculate the check sum
+		int cmp = memcmp(dataSet.C, dataSet.C_PRIME, dataSet.m * dataSet.p);
+
+		// if cmp == 0 we are good to go :-)
+		printf("[-] Comparing results... %d\n", cmp);
+
 		// Print the checksum
-		printf("\nIteration [%d] Checksum: %d", i, CHECK_SUM);
+		printf("\nIteration [%d] Compare Results: %d", i, CHECK_SUM);
 
 		closeDataSet(dataSet);
 
-		elapsed_time += omp_get_wtime() - start_time;
 	}
 
 	// report elapsed time
@@ -133,7 +144,22 @@ void closeDataSet(DataSet dataSet){
 	free(dataSet.C);
 }
 
-void multiply(DataSet dataSet){
+// Serial
+void multiply(DataSet dataSet) {
+  int i, j, k, sum;
+  for (i = 0; i < dataSet.n; i++) {
+    for (j = 0; j < dataSet.p; j++) {
+      sum = 0;
+      for (k = 0; k < dataSet.m; k++) {
+        sum += dataSet.A[i * dataSet.m + k] * dataSet.B[k * dataSet.p + j];
+      }
+      dataSet.C_prime[i * dataSet.p + j] = sum;
+    }
+  }
+}
+
+
+void multiply_parallel(DataSet dataSet){
 	int i, j, k, sum;
 
 	#pragma omp parallel for
