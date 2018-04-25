@@ -11,7 +11,7 @@
 
 // Let it be.
 #define _CRT_SECURE_NO_WARNINGS
-#define NUM_THREADS 4
+#define NUM_THREADS 8
 
 // Global variable to check the summation of the elements of the result
 long long int CHECK_SUM = 0;
@@ -163,10 +163,10 @@ void multiply(DataSet dataSet) {
 void multiply_parallel(DataSet dataSet){
 	int i, j, k, sum;
 
-	#pragma omp parallel for
+	#pragma omp parallel for schedule(dynamic, 200)
 	for(i = 0; i < dataSet.n; i++){
 
-		#pragma omp parallel for
+		#pragma omp parallel for schedule(dynamic, 200)
 		for(j = 0; j < dataSet.p; j++){
 			sum = 0;
 
@@ -176,7 +176,6 @@ void multiply_parallel(DataSet dataSet){
 			dataSet.C[i * dataSet.p + j] = sum;
 		}
 	}
-	CHECK_SUM = sum;
 }
 
 
