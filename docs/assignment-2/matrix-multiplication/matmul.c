@@ -22,7 +22,7 @@ long long int CHECK_SUM = 0;
 #include <omp.h>
 
 typedef struct {
-	int *A, *B, *C;
+	int *A, *B, *C, *C_PRIME;
 	int n, m, p;
 } DataSet;
 
@@ -30,6 +30,7 @@ void fillDataSet(DataSet *dataSet);
 void printDataSet(DataSet dataSet);
 void closeDataSet(DataSet dataSet);
 void multiply(DataSet dataSet);
+void multiply_parallel(Dataset dataset);
 
 int main(int argc, char *argv[]){
 	DataSet dataSet;
