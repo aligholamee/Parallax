@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{Merge-sort\040Parallelization\040with\040Tasks}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Problem\040Specification}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Task\040Parallelization}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Task\040Execution}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Task\040Parallelization\040in\040Recursive\040Loops}{section.1}% 5
+\BOOKMARK [2][-]{subsection.1.5}{Parallelized\040Recursive\040Loop}{section.1}% 6
+\BOOKMARK [2][-]{subsection.1.6}{Testing\040&\040Evaluation}{section.1}% 7
+\BOOKMARK [1][-]{section.2}{Merge-sort\040Parallelization\040with\040Sections}{}% 8
+\BOOKMARK [2][-]{subsubsection.2.0.1}{The\040Problem\040with\040Sections\040Block}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.1}{Parallelized\040Recursive\040Loop}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.2}{Testing\040&\040Evaluation}{section.2}% 11
+\BOOKMARK [1][-]{section.3}{System\040Specifications}{}% 12
