@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/W32TeX) (preloaded format=xelatex 2018.3.24)  22 MAY 2018 23:21
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/W32TeX) (preloaded format=xelatex 2018.3.24)  23 MAY 2018 01:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1256,6 +1256,9 @@ tly
 
 LaTeX Warning: Label `pl1' multiply defined.
 
+
+LaTeX Warning: Label `pl1' multiply defined.
+
 )
 \openout1 = `MCP_9531504_HW4.aux'.
 
@@ -1420,25 +1423,30 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [1
 
 ] [2] [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 245.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 245.
+File: 2_1.PNG Graphic file (type QTm)
+ <use  "2_1.PNG" > [4]
+LaTeX Font Info:    Font shape `TU/TeXGyreSchola(0)/bx/it' will be
+(Font)              scaled to size 10.20007pt on input line 271.
+ [5] [6]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 316.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 316.
  (./MCP_9531504_HW4.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 245.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 245.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 316.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 316.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 245.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 316.
  )
 (\end occurred when \ifx on line 161 was incomplete) 
 Here is how much of TeX's memory you used:
- 31895 strings out of 493005
- 617976 string characters out of 6137956
- 667728 words of memory out of 5000000
- 35403 multiletter control sequences out of 15000+600000
- 12779 words of font info for 59 fonts, out of 8000000 for 9000
+ 31899 strings out of 493005
+ 618098 string characters out of 6137956
+ 672727 words of memory out of 5000000
+ 35405 multiletter control sequences out of 15000+600000
+ 12787 words of font info for 60 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  55i,7n,79p,10473b,522s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on MCP_9531504_HW4.pdf (3 pages).
+Output written on MCP_9531504_HW4.pdf (6 pages).

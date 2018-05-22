@@ -1,1 +1,6 @@
-\BOOKMARK [1][-]{section.1}{GPU\040Characteristics}{}% 1
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{GPU\040Architecture}{}% 2
+\BOOKMARK [1][-]{section.3}{Compute\040Capability}{}% 3
+\BOOKMARK [1][-]{section.4}{Occupancy\040in\040CUDA}{}% 4
+\BOOKMARK [1][-]{section.5}{Vector\040Addition\040Indexing}{}% 5
+\BOOKMARK [1][-]{section.6}{Vector\040Addition\040Grid}{}% 6
