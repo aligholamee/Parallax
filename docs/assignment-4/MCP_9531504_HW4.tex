@@ -188,7 +188,6 @@ anchorcolor = darkblue]{hyperref}
 \end{center}
 
 \begin{abstract}
-Abstract:
 Graphics processing units (GPUs) originally designed for computer video cards have emerged as the most powerful chip in a high-performance workstation. Unlike multicore CPU architectures, which currently ship with two or four cores, GPU architectures are “manycore” with hundreds of cores capable of running thousands of threads in parallel. NVIDIA’s CUDA is a co-evolved hardware-software architecture that enables high-performance computing developers to harness the tremendous computational power and memory bandwidth of the GPU in a familiar programming environment - the C programming language. In this report, we'll analyze the basic architectural characteristics of Nvidia GPUs.
 \end{abstract} 
 
@@ -276,7 +275,7 @@ Main components of a GPU are given below. Describe each of these components and 
 	Global memory is supplied via GDDR (Graphic Double Data Rate) on the graphics card. This is
 	a high-performance version of DDR (Double Data Rate) memory. Memory bus width can be up to 512 bits
 	wide, giving a bandwidth of 5 to 10 times more than found on CPUs, up to 190 GB/s with the Fermi
-	hardware.
+	hardware. They are physically identical but, the addressing sections of each is different from the other one.
 \end{itemize}
 
 \section{Compute Capability}
