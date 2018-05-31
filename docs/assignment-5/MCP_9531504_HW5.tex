@@ -248,8 +248,45 @@ All of the results are evaluated using \textit{Mean Squared Error} metric. The c
 		return err;
 	}
 \end{cpp}
-The mean squared error for arrays not bigger than the warp size (which is 32 in my case), is 0. For warp sizes greater than 32 the error increases.
+The mean squared error for arrays not bigger than the warp size (which is 32 in my case), is 0. For warp sizes greater than 32 the error increases. The result is absolutely stunning! As you can see in the figure 1.2, the mean square error for the input of sizes less than 32 is computed without errors. That's mainly because of the issue with the maximum number of threads running together. Figure 1.3 illustrates this issue as the size of the input array goes higher than 32.
 
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.7\textwidth]{1_2.png}
+	\caption{Computed MSE for Arrays with Size Less than 32.}
+	\label{pl1}
+\end{figure}
 
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.7\textwidth]{1_3.png}
+	\caption{Computed MSE for Arrays with Size Greater than 32.}
+	\label{pl1}
+\end{figure}
+\newpage
+\subsection{Performance Analysis}
+Now, let's look at how this implementation performs against the sequential implementation. Table 1.1 illustrates this phenomenon.
+\def\arraystretch{1.3}
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|p{2cm}|}
+
+		\hline
+		Size & 5 MB & 50 MB & 80 MB &\\
+		\hline
+		Error   & Very High    & Very High & Very High  & \\
+		\hline
+		(grid, block)   &  (n/1024, 1024)    &  (n/1024, 1024) &  (n/1024, 1024)&\\
+		\hline
+		Time(ms)   &   1.285472    &   1.431008 &  1.461440&\\
+		\hline
+	\end{tabular}
+	\caption{Results of Prefix Sum Sequential Implementation of \textit{\textbf{integer}} type.}
+	\label{figsolplot}
+\end{table}\\
+As can be seen from this table, there is a lot of computation error with the raw algorithm of \textit{Hillis \& Steele}. The improvement of the algorithm in next section will solve this problem.
+
+\subsection{A Deeper Look at Blocks and Grids}
+Here we'll suppose the array size to be 5 MB only. In this case, there are 1250000 integer elements in the array. Since each multiprocessor can accept up to 1024 threads, we can set the number of blocks to 1221 (Ceil of 1220.70) and the number of threads to 1024 in each block. This solution will not work since the warp size is 32 and there is dependency in different steps of the algorithm. The array will be overwritten and the result is incorrect.
+
+\section{title}
 \end{document}
 

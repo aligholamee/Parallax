@@ -6,3 +6,5 @@
 \BOOKMARK [2][-]{subsection.1.5}{CUDA\040Kernel}{section.1}% 6
 \BOOKMARK [2][-]{subsection.1.6}{Grid\040&\040Block\040Size\040Analysis}{section.1}% 7
 \BOOKMARK [2][-]{subsection.1.7}{Mean\040Squared\040Error\040Analysis}{section.1}% 8
+\BOOKMARK [2][-]{subsection.1.8}{Performance\040Analysis}{section.1}% 9
+\BOOKMARK [2][-]{subsection.1.9}{A\040Deeper\040Look\040at\040Blocks\040and\040Grids}{section.1}% 10
