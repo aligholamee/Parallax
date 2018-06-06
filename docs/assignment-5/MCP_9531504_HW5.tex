@@ -287,6 +287,34 @@ As can be seen from this table, there is a lot of computation error with the raw
 \subsection{A Deeper Look at Blocks and Grids}
 Here we'll suppose the array size to be 5 MB only. In this case, there are 1250000 integer elements in the array. Since each multiprocessor can accept up to 1024 threads, we can set the number of blocks to 1221 (Ceil of 1220.70) and the number of threads to 1024 in each block. This solution will not work since the warp size is 32 and there is dependency in different steps of the algorithm. The array will be overwritten and the result is incorrect.
 
-\section{title}
+\subsection{Update 1; Minor Improvements}
+We can simply scale this implementation by increasing the number of threads per block. We can compute the proper dimensions of \textbf{grid} and \textbf{block} as following:
+\begin{cpp}
+	// Kernel launch 
+	dim3 gridDimensions(ceil((float)n / BLOCK_SIZE), 1, 1);
+	dim3 blockDimensions(BLOCK_SIZE, 1, 1);
+	
+	prefixSumCUDA << < gridDimensions, blockDimensions >> > (d_A, n);
+\end{cpp}
+This implementation handles input sizes up to \textit{414} elements. Note that \textit{BlockSize} is held 1024 in this case.
+
+\section{Map Reduce Algorithm}
+We would like to find an algorithm that would approach the efficiency of the sequential algorithm, while still taking advantage of the parallelism in the GPU.
+
+\subsection{Main Idea}
+To do this we will use an algorithmic pattern that arises often in parallel computing: balanced trees. The idea is to build a balanced binary tree on the input data and sweep it to and from the root to compute the prefix sum. A binary tree with $n$ leaves has $d = \log_2 n$ levels, and each level $d$ has $2^d$ nodes. If we perform one add per node, then we will perform O(n) (work efficient) adds on a single traversal of the tree. Note that \textit{map} phase is the phase that we break the array into pieces to compute the partial sums on shared memory and the \textit{reduce} phase is the phase that we add up all the results to get the final results.
+
+\subsubsection{Up Sweep Phase}
+The demonstration of this phase is illustrated in figure 2.1.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.7\textwidth]{2_1.png}
+	\caption{Demonstration of \textit{Up Sweep} Phase.}
+	\label{pl1}
+\end{figure}
+Now that partial sums are computed, we can perform a \textit{down sweep} which yields in the prefix sum result.
+
+\subsubsection{Down Sweep Phase}
+In this phase, each node passes down its value to its left child, and the sum of its value and former value of its left child, to its right child.
+
 \end{document}
 

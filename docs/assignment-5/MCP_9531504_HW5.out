@@ -8,3 +8,8 @@
 \BOOKMARK [2][-]{subsection.1.7}{Mean\040Squared\040Error\040Analysis}{section.1}% 8
 \BOOKMARK [2][-]{subsection.1.8}{Performance\040Analysis}{section.1}% 9
 \BOOKMARK [2][-]{subsection.1.9}{A\040Deeper\040Look\040at\040Blocks\040and\040Grids}{section.1}% 10
+\BOOKMARK [2][-]{subsection.1.10}{Update\0401;\040Minor\040Improvements}{section.1}% 11
+\BOOKMARK [1][-]{section.2}{Map\040Reduce\040Algorithm}{}% 12
+\BOOKMARK [2][-]{subsection.2.1}{Main\040Idea}{section.2}% 13
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Up\040Sweep\040Phase}{subsection.2.1}% 14
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Down\040Sweep\040Phase}{subsection.2.1}% 15
