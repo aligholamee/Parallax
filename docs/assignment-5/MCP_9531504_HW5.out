@@ -10,6 +10,8 @@
 \BOOKMARK [2][-]{subsection.1.9}{A\040Deeper\040Look\040at\040Blocks\040and\040Grids}{section.1}% 10
 \BOOKMARK [2][-]{subsection.1.10}{Update\0401;\040Minor\040Improvements}{section.1}% 11
 \BOOKMARK [1][-]{section.2}{Map\040Reduce\040Algorithm}{}% 12
-\BOOKMARK [2][-]{subsection.2.1}{Main\040Idea}{section.2}% 13
-\BOOKMARK [3][-]{subsubsection.2.1.1}{Up\040Sweep\040Phase}{subsection.2.1}% 14
-\BOOKMARK [3][-]{subsubsection.2.1.2}{Down\040Sweep\040Phase}{subsection.2.1}% 15
+\BOOKMARK [1][-]{section.3}{Brent\040Kung\040Scan\040with\040Arbitrary\040Size\040Support\040}{}% 13
+\BOOKMARK [2][-]{subsubsection.3.0.1}{Source\040Code}{section.3}% 14
+\BOOKMARK [3][-]{subsubsection.3.0.2}{Serial\040vs\040Parallel\040Timings}{subsubsection.3.0.1}% 15
+\BOOKMARK [3][-]{subsubsection.3.0.3}{Grid\040Size\040&\040Block\040Size\040Analysis}{subsubsection.3.0.1}% 16
+\BOOKMARK [3][-]{subsubsection.3.0.4}{SM\040Activity\040Analysis}{subsubsection.3.0.1}% 17

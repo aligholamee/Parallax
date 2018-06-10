@@ -299,22 +299,92 @@ We can simply scale this implementation by increasing the number of threads per 
 This implementation handles input sizes up to \textit{414} elements. Note that \textit{BlockSize} is held 1024 in this case.
 
 \section{Map Reduce Algorithm}
-We would like to find an algorithm that would approach the efficiency of the sequential algorithm, while still taking advantage of the parallelism in the GPU.
+In this implementation which is under \textit{src/normal-implementation}, we have divided the input array into sub arrays. Thus, we have some blocks on the input array which in each block, there are a big number of threads scanning sub arrays. Each of the threads would do multiple additions. Final element of each sub array is finally loaded into another array which holds the last elements of all sub arrays. Then the scan procedure is performed on this array one more time. The results are added back to the elements of the main array respectively.
+Note that this implementation handles up to 15000 input sizes which is a massive improvement compared to the initial implementation.
+\begin{cpp}
+	__global__ void
+	prefixSumMap(int *a, int *subArraySumArray, size_t n, size_t k)
+	{
+		int tId = blockIdx.x * blockDim.x + threadIdx.x;
+		
+		int startPoint = tId * NUM_OF_ADDS_PER_THREAD;
+		int endPoint = startPoint + NUM_OF_ADDS_PER_THREAD;
+		
+		// Scan sub arrays
+		for (int i = startPoint + 1; i < endPoint; i++) {
+			
+			if (i >= n)
+			break;
+			
+			a[i] += a[i - 1];
+		}
+		
+		__syncthreads();
+		subArraySumArray[tId] = a[endPoint - 1];
+		
+		if (tId == 0) {
+			for (int i = 1; i < k; i++) {
+				subArraySumArray[i] += subArraySumArray[i - 1];
+			}
+		}
+		
+		__syncthreads();
+		printf("");
+		
+		int newStartPoint = startPoint + NUM_OF_ADDS_PER_THREAD;
+		int newEndPoint = endPoint + NUM_OF_ADDS_PER_THREAD;
+		
+		for (int i = newStartPoint; i < newEndPoint; i++) {
+			if (i >= n)
+			break;
+			
+			a[i] += subArraySumArray[tId];
+		}
+	}
+\end{cpp}
+The greatest bottleneck is when the thread 0 tries to compute the prefix sum of the intermediate array. Also, since \textit{syncthreads} is used to create a synchronization mechanism on the threads of each block, to control other blocks we can buy some time by conducting an \textit{I/O} instruction. Note that we haven't taken care of the timings in this implementation.
 
-\subsection{Main Idea}
-To do this we will use an algorithmic pattern that arises often in parallel computing: balanced trees. The idea is to build a balanced binary tree on the input data and sweep it to and from the root to compute the prefix sum. A binary tree with $n$ leaves has $d = \log_2 n$ levels, and each level $d$ has $2^d$ nodes. If we perform one add per node, then we will perform O(n) (work efficient) adds on a single traversal of the tree. Note that \textit{map} phase is the phase that we break the array into pieces to compute the partial sums on shared memory and the \textit{reduce} phase is the phase that we add up all the results to get the final results.
+\section{Brent Kung Scan with Arbitrary Size Support }
+This implementation supports input arrays with arbitrary size. It includes 3 main steps(kernels):
+\begin{itemize}
+	\item Scan sub arrays of the input array with normal approach
+	\item Scan the intermediate array with Brent Kung approach
+	\item Reduce the result back to the main array
+\end{itemize}
 
-\subsubsection{Up Sweep Phase}
-The demonstration of this phase is illustrated in figure 2.1.
+\subsubsection{Source Code}
+Various implementations are attached in the \textit{src} folder. This implementation is under \textit{final-implementation} subdirectory.
+
+\subsubsection{Serial vs Parallel Timings}
+
+\subsubsection{Grid Size \& Block Size Analysis}
+Maximum number of blocks and their sizes is heavily dedicated to the GPU model. The important thing about this implementation is that, whenever a single thread does less computations (smaller sub array size), the performance gets better. For the input of size $n$, each thread scans a sub array with size \textit{NUM\_OF\_ADDS\_PER\_THREAD}. The block size should be a coefficient of the job size each thread is working on. Maximum block size is 1024 for compute capability of 5 in \textit{x} direction. Thus, the proper grid size (which is the number of blocks) is \textit{ceil((float) n / BLOCK\_SIZE)}. For larger input sizes, the value of \textit{NUM\_OF\_ADDS\_PER\_THREAD} should be increased for the computation to be error prone.
 \begin{figure}[!h]\centering
-	\includegraphics[width=0.7\textwidth]{2_1.png}
-	\caption{Demonstration of \textit{Up Sweep} Phase.}
+	\includegraphics[width=0.75\textwidth]{3_1.png}
+	\caption{Summary of Grid and Block Sizes of 3 Kernels.}
 	\label{pl1}
 \end{figure}
-Now that partial sums are computed, we can perform a \textit{down sweep} which yields in the prefix sum result.
+Figure 3.2 illustrates the total occupancy. It also demonstrates that the number of blocks, which is 2 in this case, is the cause of occupancy limit.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.55\textwidth]{3_2.png}
+	\caption{Experimental Results of Occupancy of \textit{PrefixSumMap} Kernel.}
+	\label{pl1}
+\end{figure}
+\newpage
+Figure 3.3 shows how much time is wasted for global memory accessing. It clearly depicts the issue stall reasons for the \textit{PrefixSumMap} kernel.
 
-\subsubsection{Down Sweep Phase}
-In this phase, each node passes down its value to its left child, and the sum of its value and former value of its left child, to its right child.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.55\textwidth]{3_3.png}
+	\caption{Issue Stall Reasons of \textit{PrefixSumMap} Kernel.}
+	\label{pl1}
+\end{figure}
 
+\subsubsection{SM Activity Analysis}
+Figure 3.4 shows the percentage of time each multiprocessor was active during the duration of the kernel launch. A multiprocessor is considered to be active if at least one warp is currently assigned for execution. An SM can be inactive - even though the kernel grid is not yet completed - due to high workload imbalances. Such uneven balancing between the SMs can be caused by a few factors: Different execution times for the kernel blocks, variations between the number of scheduled blocks per SM, or a combination of the two.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.2\textwidth]{3_4.png}
+	\caption{SM Activity of \textit{PrefixSumMap} Kernel.}
+	\label{pl1}
+\end{figure}
 \end{document}
 
