@@ -2,8 +2,9 @@
 // Let it be.
 #define _CRT_SECURE_NO_WARNINGS
 #define BLOCK_SIZE 1024
-#define NUM_OF_ADDS_PER_THREAD 32
+#define NUM_OF_ADDS_PER_THREAD 128
 #define WARP_SIZE 32
+#define SECTION_SIZE 2048
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,10 +48,10 @@ prefixSumMap(int *a, int *subArraySumArray, size_t n, size_t k)
 
 	int startPoint = tId * NUM_OF_ADDS_PER_THREAD;
 	int endPoint = startPoint + NUM_OF_ADDS_PER_THREAD;
-
+	
 	// Scan sub arrays
 	for (int i = startPoint + 1; i < endPoint; i++) {
-
+		
 		if (i >= n)
 			break;
 
@@ -63,16 +64,46 @@ prefixSumMap(int *a, int *subArraySumArray, size_t n, size_t k)
 
 	__syncthreads();
 
-	subArraySumArray[tId] = a[endPoint - 1];
+	// Copy data t
+	if(endPoint < n)
+		subArraySumArray[tId] = a[endPoint - 1];
+}
 
-	 if (tId == 0) {
-		for (int i = 1; i < k; i++) {
-			subArraySumArray[i] += subArraySumArray[i - 1];
+__global__ void Brent_Kung_scan_kernel(int *a, size_t n) {
+	__shared__ int C[SECTION_SIZE];
+	int i = 2 * blockIdx.x*blockDim.x + threadIdx.x;
+	if (i < n)
+		C[threadIdx.x] = a[i];
+	if (i + blockDim.x < n)
+		C[threadIdx.x + blockDim.x] = a[i + blockDim.x];
+	for (unsigned int step = 1; step <= blockDim.x; step *= 2) {
+		__syncthreads();
+		int index = (threadIdx.x + 1) * 2 * step - 1;
+		if (index < SECTION_SIZE) {
+			C[index] += C[index - step];
 		}
 	}
-
+	for (int step = SECTION_SIZE / 4; step > 0; step /= 2) {
+		__syncthreads();
+		int index = (threadIdx.x + 1)*step * 2 - 1;
+		if (index + step < SECTION_SIZE) {
+			C[index + step] += C[index];
+		}
+	}
 	__syncthreads();
-	printf("");
+	if (i < n)
+		a[i] = C[threadIdx.x];
+	if (i + blockDim.x < n)
+		a[i + blockDim.x] = C[threadIdx.x + blockDim.x];
+}
+
+__global__ void
+reduceResultsKernel(int *a, int *subArraySumArray, size_t n, size_t k)
+{
+	int tId = blockIdx.x * blockDim.x + threadIdx.x;
+
+	int startPoint = tId * NUM_OF_ADDS_PER_THREAD;
+	int endPoint = startPoint + NUM_OF_ADDS_PER_THREAD;
 
 	// Each thread adds the result of the scanned blocks array to input array
 	int newStartPoint = startPoint + NUM_OF_ADDS_PER_THREAD;
@@ -85,6 +116,7 @@ prefixSumMap(int *a, int *subArraySumArray, size_t n, size_t k)
 		a[i] += subArraySumArray[tId];
 	}
 }
+
 
 void scanCPU(float *f_out, float *f_in, int i_n)
 {
@@ -224,12 +256,17 @@ int compute_prefix_sum(int *a, size_t n) {
 		exit(EXIT_FAILURE);
 	}
 
-	dim3 gridDimensionsMapKernel(numOfBlocks, 1, 1);
-	dim3 blockDimensionsMapKernel(BLOCK_SIZE, 1, 1);
+	dim3 gridDimensionsMapKernel1(numOfBlocks, 1, 1);
+	dim3 blockDimensionsMapKernel1(BLOCK_SIZE, 1, 1);
+
+	dim3 gridDimensionsMapKernel2(ceil((float)numOfSubArrays/BLOCK_SIZE), 1, 1);
+	dim3 blockDimensionsMapKernel2(BLOCK_SIZE, 1, 1);
 
 	// prefixSumCUDA <<< gridDimensions, blockDimensions >> > (d_result, d_A, n);
 
-	prefixSumMap << <gridDimensionsMapKernel, blockDimensionsMapKernel >> > (d_A, d_subArraySums, n, numOfSubArrays);
+	prefixSumMap << <gridDimensionsMapKernel1, blockDimensionsMapKernel1 >> > (d_A, d_subArraySums, n, numOfSubArrays);
+	Brent_Kung_scan_kernel << <gridDimensionsMapKernel2, blockDimensionsMapKernel2 >> > (d_subArraySums, numOfSubArrays);
+	reduceResultsKernel << <gridDimensionsMapKernel1, blockDimensionsMapKernel1 >> > (d_A, d_subArraySums, n, numOfSubArrays);
 
 	// Check kernel launch
 	error = cudaGetLastError();
