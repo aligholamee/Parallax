@@ -191,7 +191,7 @@ anchorcolor = darkblue]{hyperref}
 In this report, we'll analyze the \textit{prefix-sum} (\textit{scan}) problem. There are many uses for scan, including, but not limited to, sorting, lexical analysis, string comparison, polynomial evaluation, stream compaction, and building histograms and data structures (graphs, trees, and so on) in parallel. There are also multiple solutions and algorithms to compute the prefix sum of an array. Sources for this report are provided in the \textit{src} folder. 
 \end{abstract} 
 
-\subparagraph{Keywords.} \textit{}
+\subparagraph{Keywords.} \textit{ Heterogeneous Programming, CUDA, Scan, Brent Kung Scan, Hillis \& Steele Scan.}
 
 \section{Hillis \& Steele Algorithm}
 \subsection{How it works?}
@@ -355,8 +355,13 @@ This implementation supports input arrays with arbitrary size. It includes 3 mai
 \subsubsection{Source Code}
 Various implementations are attached in the \textit{src} folder. This implementation is under \textit{final-implementation} subdirectory.
 
-\subsubsection{Serial vs Parallel Timings}
-
+\subsubsection{Speedup Analysis}
+Figure 3.1 illustrates the details of timings of parallel and serial implementations.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.8\textwidth]{3_5.png}
+	\caption{Timings for Serial and Parallel Implementations(GPU).}
+	\label{pl1}
+\end{figure}
 \subsubsection{Grid Size \& Block Size Analysis}
 Maximum number of blocks and their sizes is heavily dedicated to the GPU model. The important thing about this implementation is that, whenever a single thread does less computations (smaller sub array size), the performance gets better. For the input of size $n$, each thread scans a sub array with size \textit{NUM\_OF\_ADDS\_PER\_THREAD}. The block size should be a coefficient of the job size each thread is working on. Maximum block size is 1024 for compute capability of 5 in \textit{x} direction. Thus, the proper grid size (which is the number of blocks) is \textit{ceil((float) n / BLOCK\_SIZE)}. For larger input sizes, the value of \textit{NUM\_OF\_ADDS\_PER\_THREAD} should be increased for the computation to be error prone.
 \begin{figure}[!h]\centering
@@ -364,14 +369,14 @@ Maximum number of blocks and their sizes is heavily dedicated to the GPU model. 
 	\caption{Summary of Grid and Block Sizes of 3 Kernels.}
 	\label{pl1}
 \end{figure}
-Figure 3.2 illustrates the total occupancy. It also demonstrates that the number of blocks, which is 2 in this case, is the cause of occupancy limit.
+Figure 3.3 illustrates the total occupancy. It also demonstrates that the number of blocks, which is 2 in this case, is the cause of occupancy limit.
 \begin{figure}[!h]\centering
 	\includegraphics[width=0.55\textwidth]{3_2.png}
 	\caption{Experimental Results of Occupancy of \textit{PrefixSumMap} Kernel.}
 	\label{pl1}
 \end{figure}
 \newpage
-Figure 3.3 shows how much time is wasted for global memory accessing. It clearly depicts the issue stall reasons for the \textit{PrefixSumMap} kernel.
+Figure 3.4 shows how much time is wasted for global memory accessing. It clearly depicts the issue stall reasons for the \textit{PrefixSumMap} kernel.
 
 \begin{figure}[!h]\centering
 	\includegraphics[width=0.55\textwidth]{3_3.png}
@@ -380,10 +385,18 @@ Figure 3.3 shows how much time is wasted for global memory accessing. It clearly
 \end{figure}
 
 \subsubsection{SM Activity Analysis}
-Figure 3.4 shows the percentage of time each multiprocessor was active during the duration of the kernel launch. A multiprocessor is considered to be active if at least one warp is currently assigned for execution. An SM can be inactive - even though the kernel grid is not yet completed - due to high workload imbalances. Such uneven balancing between the SMs can be caused by a few factors: Different execution times for the kernel blocks, variations between the number of scheduled blocks per SM, or a combination of the two.
+Figure 3.5 shows the percentage of time each multiprocessor was active during the duration of the kernel launch. A multiprocessor is considered to be active if at least one warp is currently assigned for execution. An SM can be inactive - even though the kernel grid is not yet completed - due to high workload imbalances. Such uneven balancing between the SMs can be caused by a few factors: Different execution times for the kernel blocks, variations between the number of scheduled blocks per SM, or a combination of the two.
 \begin{figure}[!h]\centering
 	\includegraphics[width=0.2\textwidth]{3_4.png}
 	\caption{SM Activity of \textit{PrefixSumMap} Kernel.}
+	\label{pl1}
+\end{figure}
+
+\subsubsection{Data Type Analysis}
+Figure 3.6 illustrates how increasing the data type size can affect performance.
+\begin{figure}[!h]\centering
+	\includegraphics[width=0.8\textwidth]{3_6.png}
+	\caption{Timings for Various Types, GPU Implementation.}
 	\label{pl1}
 \end{figure}
 \end{document}

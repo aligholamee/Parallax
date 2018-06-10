@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/W32TeX) (preloaded format=xelatex 2018.3.24)  10 JUN 2018 13:22
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/W32TeX) (preloaded format=xelatex 2018.3.24)  10 JUN 2018 15:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1271,6 +1271,12 @@ LaTeX Warning: Label `pl1' multiply defined.
 
 LaTeX Warning: Label `pl1' multiply defined.
 
+
+LaTeX Warning: Label `pl1' multiply defined.
+
+
+LaTeX Warning: Label `pl1' multiply defined.
+
 )
 \openout1 = `MCP_9531504_HW5.aux'.
 
@@ -1572,34 +1578,45 @@ GyreSchola(0)/m/it/12 src \TU/TeXGyreSchola(0)/m/n/12 folder. This implementati
 on is under \TU/TeXGyreSchola(0)/m/it/12 final-implementation
  []
 
+File: 3_5.png Graphic file (type QTm)
+<use  "3_5.png" >
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 File: 3_1.png Graphic file (type QTm)
 <use  "3_1.png" >
 File: 3_2.png Graphic file (type QTm)
- <use  "3_2.png" > [5] [6]
+ <use  "3_2.png" > [5]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6]
 File: 3_3.png Graphic file (type QTm)
  <use  "3_3.png" >
 File: 3_4.png Graphic file (type QTm)
+ <use  "3_4.png" > [7]
+File: 3_6.png Graphic file (type QTm)
+ <use  "3_6.png" > [8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 402.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 402.
 
-<use  "3_4.png" > [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 389.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 389.
- (./MCP_9531504_HW5.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 389.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 389.
+(./MCP_9531504_HW5.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 402.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 402.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 389.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 402.
  )
 (\end occurred when \ifx on line 161 was incomplete) 
 Here is how much of TeX's memory you used:
- 32180 strings out of 493005
- 621961 string characters out of 6137956
- 701533 words of memory out of 5000000
- 35669 multiletter control sequences out of 15000+600000
+ 32184 strings out of 493005
+ 621989 string characters out of 6137956
+ 702545 words of memory out of 5000000
+ 35671 multiletter control sequences out of 15000+600000
  12819 words of font info for 64 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  55i,12n,79p,10473b,1757s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on MCP_9531504_HW5.pdf (7 pages).
+Output written on MCP_9531504_HW5.pdf (8 pages).

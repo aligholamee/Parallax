@@ -12,6 +12,7 @@
 \BOOKMARK [1][-]{section.2}{Map\040Reduce\040Algorithm}{}% 12
 \BOOKMARK [1][-]{section.3}{Brent\040Kung\040Scan\040with\040Arbitrary\040Size\040Support\040}{}% 13
 \BOOKMARK [2][-]{subsubsection.3.0.1}{Source\040Code}{section.3}% 14
-\BOOKMARK [3][-]{subsubsection.3.0.2}{Serial\040vs\040Parallel\040Timings}{subsubsection.3.0.1}% 15
+\BOOKMARK [3][-]{subsubsection.3.0.2}{Speedup\040Analysis}{subsubsection.3.0.1}% 15
 \BOOKMARK [3][-]{subsubsection.3.0.3}{Grid\040Size\040&\040Block\040Size\040Analysis}{subsubsection.3.0.1}% 16
 \BOOKMARK [3][-]{subsubsection.3.0.4}{SM\040Activity\040Analysis}{subsubsection.3.0.1}% 17
+\BOOKMARK [3][-]{subsubsection.3.0.5}{Data\040Type\040Analysis}{subsubsection.3.0.1}% 18
